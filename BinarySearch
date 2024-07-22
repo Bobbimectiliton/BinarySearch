@@ -1,0 +1,40 @@
+package Day7;
+
+/*
+ * Much faster than normal nested for loops because nested for loops run exponentially by n 
+ * whereas binary is 2^n
+ */
+
+public class BinarySearch{
+	static int findIndex(int[] daNums, int target){
+		if(daNums[daNums.length/2] ==target) {
+			return daNums[daNums.length/2];	
+		}
+		int odd = 0;
+		if(daNums.length % 2>0)
+			odd = 1;
+		
+		if(daNums[daNums.length/2] > target) {
+			int[] array1 = new int[daNums.length/2];
+			for(int i=0; i<array1.length; i++) {
+				array1[i] = daNums[i];
+			}
+			return findIndex(array1,target);
+		}
+			
+		else if (daNums[daNums.length/2] < target) {
+			int[] array2 = new int[daNums.length/2];
+			for(int i=0; i<array2.length;i++) {
+			array2[i] = daNums[i+daNums.length/2+odd];
+			}
+			return findIndex(array2,target);
+		}	
+		return -1;
+	}
+	
+	public static void main(String[] args) {
+		int[] nums = new int[]{0,1,2,3,4,5,6};
+		int toFind = 4;
+		System.out.println(findIndex(nums, toFind));
+	}
+}
