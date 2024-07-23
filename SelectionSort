@@ -13,6 +13,7 @@ public class SelectionSort{
 		int newChange = 0;
 		
 		for(int i = 0; i<Nums.length; i++) {
+			smallIndex = i;
 			for(int l = i+1; l<Nums.length; l++) {
 				if(Nums[i]>Nums[l] && Nums[smallIndex]>Nums[l]) {
 					smallIndex = l;
