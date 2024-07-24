@@ -1,0 +1,82 @@
+import java.util.ArrayList;
+
+public class MergSort{
+	static ArrayList<int[]> dividedNums = new ArrayList<int[]>();
+	
+	static void divide(int[] nums) {
+		int odd = (nums.length%2==0)?0:1;
+		int[] array1 = new int[nums.length/2+odd];
+		int[] array2 = new int[nums.length/2];
+		for(int i =0; i<nums.length; i++) {
+			if(i<nums.length/2+odd) {
+				array1[i] = nums[i];
+			}else {
+				array2[i-nums.length/2-odd] = nums[i];
+			}
+		}
+		if(array1.length ==1) {
+			dividedNums.add(array1);
+		}else{
+			divide(array1);	
+		}
+		if(array2.length==1) {
+			dividedNums.add(array2);
+		}else {
+			divide(array2);
+		}
+	}
+	
+	static void combineSort(int[] first, int[] second) {
+		int index1 = 0;
+		int index2 = 0;
+		int indexCombined = 0;
+		
+		int[] combined = new int[first.length+second.length];
+		while(index1<first.length && index2<second.length) {
+			if(first[index1]<second[index2]) {
+				combined[indexCombined] = first[index1];
+				index1++;
+			}else {
+				combined[indexCombined] = second[index2];
+				index2++;
+			} 
+			indexCombined++;
+		}
+		
+		// Copy the remaining elements from the first array
+	    while (index1 < first.length) {
+	        combined[indexCombined] = first[index1];
+	        index1++;
+	        indexCombined++;
+	    }
+
+	    // Copy the remaining elements from the second array
+	    while (index2 < second.length) {
+	        combined[indexCombined] = second[index2];
+	        index2++;
+	        indexCombined++;
+	    }
+	    
+		dividedNums.add(combined);
+		if(dividedNums.size()>=3) {
+			dividedNums.remove(first);
+			dividedNums.remove(second);
+		}
+		if(dividedNums.size()>1) {
+			combineSort(dividedNums.get(0),dividedNums.get(1));
+		}
+	}
+	
+	public static void main(String[] args) {
+		long start = System.nanoTime();
+		int[] daNums = new int[] {0,100,5555555,4,6,3,8,1};
+		divide(daNums);
+		combineSort(dividedNums.get(0),dividedNums.get(1));
+		int[] yes = dividedNums.get(0);
+		System.out.println("It took " + (System.nanoTime()-start) + " nanoseconds to get");
+		System.out.println("Sorted List: ");
+		for(int i= 0; i<yes.length;i++) {
+			System.out.print(yes[i] + " ");
+		}
+	}
+}
